@@ -1,22 +1,32 @@
 const baseEndpoint = 'https://api.github.com';
 const usersEndpoint = `${baseEndpoint}/users`;
-const $n = document.querySelector('name');
-const $b = document.querySelector('#blog');
+/* querySelector('name') was being searched as a tag, added . before the class name to specify that it is a class */
+const $n = document.querySelector('.name');
+/* querySelector('#blog') was being searched as an id, replaced the # with a . to specify that it is a class */
+const $b = document.querySelector('.blog');
+/* Added a <p> tag with a class "location" inside the html */
 const $l = document.querySelector('.location');
 
-function displayUser(username) {
-  $n.textContent = 'cargando...';
-  const response = await fetch(`${usersEndpoint}/${username}`);
-  console.log(data);
-  $n.textContent = '${data.name}';
-  $b.textContent = '${data.blog}';
-  $l.textContent = '${data.location}';
+/* added the async keyword at the beggining to the function to specify that it is asynchronous */
+async function displayUser(username) {
+	//
+	$n.textContent = 'cargando...';
+	const data = await fetch(`${usersEndpoint}/${username}`);
+	// created response variable, made it async using await and told it to make a json file out of the response
+	let response = await data.json();
+	console.log(response);
+	// changed single quotes to backticks
+	$n.textContent = `${response.name}`;
+	$b.textContent = `${response.blog}`;
+	$l.textContent = `${response.location}`;
 }
 
 function handleError(err) {
-  console.log('OH NO!');
-  console.log(err);
-  n.textContent = `Algo salió mal: ${err}`
+	console.log('OH NO!');
+	console.log(err);
+	n.textContent = `Algo salió mal: ${err}`;
 }
 
-displayUser('stolinski').catch(handleError);
+// called the handleError() function properly
+displayUser('stolinski').catch(handleError());
+// stolinski
