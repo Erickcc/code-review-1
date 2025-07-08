@@ -9,9 +9,12 @@ const $l = document.querySelector('.location');
 
 /* added the async keyword at the beggining to the function to specify that it is asynchronous */
 async function displayUser(username) {
-	//
 	$n.textContent = 'cargando...';
 	const data = await fetch(`${usersEndpoint}/${username}`);
+	//validate if data gets an error while fetching, if so send an error
+	if (!data.ok) {
+		throw new Error();
+	}
 	// created response variable, made it async using await and told it to make a json file out of the response
 	let response = await data.json();
 	console.log(response);
@@ -24,9 +27,11 @@ async function displayUser(username) {
 function handleError(err) {
 	console.log('OH NO!');
 	console.log(err);
-	n.textContent = `Algo salió mal: ${err}`;
+	// Fixed $n variable name
+	$n.textContent = `Algo salió mal: ${err}`;
 }
 
-// called the handleError() function properly
-displayUser('stolinski').catch(handleError());
-// stolinski
+//Now we are catching the error properly
+displayUser('stolinsk').catch(err => {
+	handleError(err);
+});
